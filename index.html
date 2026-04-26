@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VetCare Pro - Gestión Veterinaria PMI</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Background Decorators -->
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+    <div class="bg-shape shape-3"></div>
+
+    <div class="app-container glass-panel">
+        
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class='bx bxs-dog'></i>
+                <h2>VetCare <span>Pro</span></h2>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul id="nav-menu">
+                    <li class="nav-item active" data-target="dashboard">
+                        <i class='bx bxs-dashboard'></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="nav-item" data-target="appointments">
+                        <i class='bx bxs-calendar'></i>
+                        <span>Citas</span>
+                    </li>
+                    <li class="nav-item" data-target="records">
+                        <i class='bx bxs-file-blank'></i>
+                        <span>Historial Clínico</span>
+                    </li>
+                    <li class="nav-item" data-target="communication">
+                        <i class='bx bxs-message-rounded-dots'></i>
+                        <span>Interacción</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="avatar">DA</div>
+                    <div class="user-details">
+                        <p class="name">Dr. Administrador</p>
+                        <p class="role">Clínica Central</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <header class="topbar">
+                <div class="search-bar">
+                    <i class='bx bx-search'></i>
+                    <input type="text" placeholder="Buscar paciente, mascota o cita...">
+                </div>
+                <div class="topbar-actions">
+                    <select id="role-selector" class="role-select">
+                        <option value="admin">Administrador</option>
+                        <option value="owner">Dueño de Mascota</option>
+                    </select>
+                    <button class="icon-btn"><i class='bx bxs-bell'></i><span class="badge">3</span></button>
+                    <button class="icon-btn"><i class='bx bx-cog'></i></button>
+                </div>
+            </header>
+
+            <div class="view-container">
+                <!-- DASHBOARD VIEW -->
+                <section id="dashboard" class="view-section active">
+                    <div class="section-header">
+                        <div>
+                            <h1>Resumen General</h1>
+                            <p>Gestión optimizada de servicios veterinarios caninos (Enfoque PMI)</p>
+                        </div>
+                        <button class="btn-primary" onclick="app.navigate('appointments')">
+                            <i class='bx bx-plus'></i> Nueva Cita
+                        </button>
+                    </div>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon"><i class='bx bxs-calendar-check'></i></div>
+                            <div class="stat-stats">
+                                <h3>Citas Hoy</h3>
+                                <h2>12</h2>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon"><i class='bx bxs-dog'></i></div>
+                            <div class="stat-stats">
+                                <h3>Pacientes Activos</h3>
+                                <h2>148</h2>
+                            </div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-icon"><i class='bx bx-message-square-error'></i></div>
+                            <div class="stat-stats">
+                                <h3>Mensajes Nuevos</h3>
+                                <h2>5</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-widgets">
+                        <div class="widget glass-card">
+                            <h3>Próximas Citas</h3>
+                            <ul class="agenda-list" id="upcoming-dashboard-appointments">
+                                <!-- Llenado por JS -->
+                            </ul>
+                        </div>
+                        <div class="widget glass-card align-center">
+                            <h3>Carga de Trabajo / Capacidad</h3>
+                            <div class="circular-progress">
+                                <div class="inner-circle">75%</div>
+                            </div>
+                            <p class="hint">Disponibilidad en clínica hoy</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- APPOINTMENTS VIEW -->
+                <section id="appointments" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h1>Agendamiento de Citas</h1>
+                            <p>Planificación de agenda y control de tiempos</p>
+                        </div>
+                    </div>
+                    <div class="content-grid two-cols">
+                        <div class="glass-card">
+                            <h3>Programar Nueva Cita</h3>
+                            <form id="appointment-form" class="modern-form">
+                                <div class="form-group">
+                                    <label>Dueño / Cliente</label>
+                                    <input type="text" id="apt-owner" required placeholder="Nombre del cliente">
+                                </div>
+                                <div class="form-group">
+                                    <label>Nombre de la Mascota</label>
+                                    <input type="text" id="apt-pet" required placeholder="Nombre del perro">
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group form-half">
+                                        <label>Fecha</label>
+                                        <input type="date" id="apt-date" required>
+                                    </div>
+                                    <div class="form-group form-half">
+                                        <label>Hora</label>
+                                        <input type="time" id="apt-time" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Motivo / Servicio</label>
+                                    <select id="apt-reason" required>
+                                        <option value="Consulta General">Consulta General</option>
+                                        <option value="Vacunación">Vacunación</option>
+                                        <option value="Desparasitación">Desparasitación</option>
+                                        <option value="Cirugía menor">Cirugía / Procedimiento</option>
+                                        <option value="Peluquería">Estética / Peluquería</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn-primary full-width">Agendar Cita</button>
+                            </form>
+                        </div>
+                        <div class="glass-card">
+                            <h3>Citas Programadas</h3>
+                            <div class="list-wrapper">
+                                <ul id="appointments-list" class="agenda-list">
+                                    <!-- Dynamic content -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- MEDICAL RECORDS VIEW -->
+                <section id="records" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h1>Historial Clínico Canino</h1>
+                            <p>Gestión centralizada de tratamientos y evoluciones</p>
+                        </div>
+                    </div>
+                    <div class="content-grid">
+                        <div class="glass-card table-card">
+                            <div class="card-header-actions">
+                                <h3>Directorio de Pacientes</h3>
+                                <button class="btn-secondary btn-sm" id="btn-add-record"><i class='bx bx-plus'></i> Nuevo Registro</button>
+                            </div>
+                            
+                            <!-- Search -->
+                            <div class="filter-bar">
+                                <input type="text" id="search-record" placeholder="Buscar por pet id, nombre o dueño...">
+                            </div>
+
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Mascota</th>
+                                        <th>Raza</th>
+                                        <th>Dueño</th>
+                                        <th>Última Visita</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="records-table-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Modal for Add/Edit Record overlay -->
+                    <div id="record-modal" class="modal-overlay hidden">
+                        <div class="glass-card modal-content">
+                            <div class="modal-header">
+                                <h3>Nuevo Expediente / Actualización</h3>
+                                <button class="icon-btn close-modal"><i class='bx bx-x'></i></button>
+                            </div>
+                            <form id="record-form" class="modern-form">
+                                <div class="form-row">
+                                    <div class="form-group form-half">
+                                        <label>Nombre Mascota</label>
+                                        <input type="text" id="rec-pet" required>
+                                    </div>
+                                    <div class="form-group form-half">
+                                        <label>Raza</label>
+                                        <input type="text" id="rec-breed" required>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group form-half">
+                                        <label>Dueño</label>
+                                        <input type="text" id="rec-owner" required>
+                                    </div>
+                                    <div class="form-group form-half">
+                                        <label>Peso (Kg)</label>
+                                        <input type="number" step="0.1" id="rec-weight">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Observaciones Médicas / Diagnóstico</label>
+                                    <textarea id="rec-notes" rows="4" required placeholder="Describe las vacunas, estado de salud o tratamientos..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary full-width">Guardar Historial</button>
+                            </form>
+                        </div>
+                    </div>
+
+                <!-- OWNER: MY APPOINTMENTS VIEW -->
+                <section id="my-appointments" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h1>Mis Citas Programadas</h1>
+                            <p>Revisa y administra tus citas veterinarias</p>
+                        </div>
+                    </div>
+                    <div class="content-grid">
+                        <div class="glass-card">
+                            <h3>Próximas Citas</h3>
+                            <div class="list-wrapper">
+                                <ul id="owner-appointments-list" class="agenda-list">
+                                    <!-- Dynamic content -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- OWNER: MY PETS VIEW -->
+                <section id="my-pets" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h1>Mis Mascotas</h1>
+                            <p>Información y historial de tus mascotas</p>
+                        </div>
+                    </div>
+                    <div class="content-grid">
+                        <div class="glass-card table-card">
+                            <h3>Mis Mascotas Registradas</h3>
+                            <table class="modern-table">
+                                <thead>
+                                    <tr>
+                                        <th>Mascota</th>
+                                        <th>Raza</th>
+                                        <th>Peso</th>
+                                        <th>Última Visita</th>
+                                        <th>Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="owner-pets-table-body">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                <section id="communication" class="view-section">
+                    <div class="section-header">
+                        <div>
+                            <h1>Interacción y Avisos</h1>
+                            <p>Comunicación eficiente entre la clínica y clientes</p>
+                        </div>
+                    </div>
+                    <div class="content-grid two-cols">
+                        <div class="glass-card">
+                            <h3>Enviar Notificación</h3>
+                            <form id="communication-form" class="modern-form">
+                                <div class="form-group">
+                                    <label>Canal</label>
+                                    <select id="comm-channel">
+                                        <option value="email">Email</option>
+                                        <option value="sms">SMS / WhatsApp</option>
+                                        <option value="app">Notificación In-App</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Destinatario (Cliente)</label>
+                                    <input type="text" id="comm-recipient" required placeholder="Buscar cliente...">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mensaje</label>
+                                    <textarea id="comm-message" rows="5" required placeholder="Ej. Recordatorio de cita, resultados de laboratorio, campaña de vacunación..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary full-width"><i class='bx bx-send'></i> Enviar Mensaje</button>
+                            </form>
+                        </div>
+                        <div class="glass-card">
+                            <h3>Registro de Mensajes Enviados</h3>
+                            <div class="messages-list-wrapper">
+                                <ul id="messages-log" class="timeline-list">
+                                    <!-- Dynamic Content -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/modules/appointments.js" type="module"></script>
+    <script src="js/modules/medicalRecords.js" type="module"></script>
+    <script src="js/modules/communication.js" type="module"></script>
+    <script src="js/app.js" type="module"></script>
+</body>
+</html>
