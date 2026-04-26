@@ -6,7 +6,7 @@
 **Versión**: 1.0.0  
 **Fecha**: Abril 2026  
 **Metodología**: PMI (Project Management Institute)  
-**Desarrollador**: GitHub Copilot
+
 
 ## 🎯 Objetivo del Proyecto
 
